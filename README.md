@@ -1,4 +1,5 @@
 # TESIS_FISCALIA
+<<<<<<< HEAD
 # Sistema Multiagente Cognitivo y Optimización Matemática para la Investigación Criminal (StRAM)
 
 Repositorio oficial para el desarrollo de la tesis de postgrado enfocada en la **construcción agéntica autónoma de grafos y optimización basada en árboles de Steiner** para el análisis y disrupción de redes criminales, integrando explicabilidad de IA (XAI) y filtrado contextual de causas.
@@ -36,3 +37,6 @@ TESIS_FISCALIA/
 ├── .env                       # Variables de entorno
 ├── requirements.txt           # Dependencias del proyecto
 └── README.md                  # Documentación
+=======
+TRABAJO EN CREACION DE GRAFOS DELICTUALES MEDIANTE AGENTES DE IA, PARA LUEGO OPTMIZAR ESTOS MEDIANTES STPRO (STEINNER TREE PROSECUTOR)
+
