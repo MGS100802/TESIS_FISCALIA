@@ -1,42 +1,49 @@
 # TESIS_FISCALIA
 <<<<<<< HEAD
-# Sistema Multiagente Cognitivo y Optimización Matemática para la Investigación Criminal (StRAM)
+# Sistema Multi-Agente Autónomo para Detección y Análisis de Redes Criminales
 
-Repositorio oficial para el desarrollo de la tesis de postgrado enfocada en la **construcción agéntica autónoma de grafos y optimización basada en árboles de Steiner** para el análisis y disrupción de redes criminales, integrando explicabilidad de IA (XAI) y filtrado contextual de causas.
-
----
-
-## 🏗️ Arquitectura del Sistema Multiagente (MAS)
-
-El pipeline de procesamiento se compone de **4 agentes autónomos** orquestados mediante LangGraph:
-
-1. **`Ingestion_Agent`**: Carga, normaliza y estructura los datos de sospechosos (`nodes.csv`) y relaciones/distancias sociales (`edges.csv`).
-2. **`Filter_Agent`**: Realiza un filtrado previo del grafo, eliminando nodos y aristas con antecedentes o causas no relacionadas al tipo de ilícito investigado (evitando ruido analítico).
-3. **`Optimization_Agent`**: Núcleo matemático basado en Programación Entera Mixta (MILP) que ejecuta el modelo *StPro* (Node-Weighted Steiner Tree Problem) a partir de un sospechoso raíz ($r$) y un parámetro de presupuesto ($\varphi$).
-4. **`Explaner_Agent` (XAI)**: Traduce la subred criminal optimizada en un informe forense fundamentado en lenguaje natural para la toma de decisiones del fiscal.
-
+Sistema inteligente basado en **Arquitectura Multi-Agente (MAS)**, **Teoría de Grafos** y **Optimización Matemática (Gurobi)**, orquestado mediante **LangGraph**, diseñado para automatizar la ingesta de partes policiales, el filtrado estructural de redes delictivas, la persecución penal y la generación de informes forenses para el Ministerio Público / Fiscalía.
 
 ---
 
-## 📂 Estructura del Repositorio
+## Arquitectura del Pipeline y Componentes (LangGraph)
+
+El flujo autónomo de punta a punta opera secuencialmente mediante un grafo de estados:
+
+1. **`IngestionAgent`**: Detecta y procesa automáticamente reportes policiales en formato PDF, extrayendo los RUTs involucrados, metadatos y generando resúmenes cognitivos asistidos por **Google Gemini**.
+2. **Consulta de Base de Datos Dinámica (SQL)**: Conecta con el repositorio institucional filtrando transaccionalmente nodos y aristas de interés en función de los blancos detectados.
+3. **`PruningAgent`**: Aplica una poda inteligente del grafo basada en cercanía estructural ($k$-hops) y tipología delictiva, eliminando ruido y reduciendo la complejidad computacional.
+4. **`StProOptimizationAgent` (Gurobi)**: Ejecuta modelos de optimización lineal entera mixta (StRAM) para aislar matemáticamente a los miembros de la banda criminal a partir de un nodo raíz (blanco clave).
+5. **`VisualizationAgent`**: Genera visualizaciones de redes complejas de alto impacto visual, destacando nodos objetivos y miembros de la organización detectados.
+6. **`ExplanationAgent`**: Utiliza modelos avanzados de lenguaje (Gemini) para redactar un informe forense e inteligencia criminal formal adaptado con lenguaje jurídico para el fiscal a cargo.
+
+---
+
+## Estructura del Proyecto
 
 ```text
 TESIS_FISCALIA/
 │
-├── data/                      # Datos anonimizados y ground truth
-│   ├── nodes.csv              # Universo de sospechosos y propensiones (Pcg)
-│   ├── edges.csv              # Aristas de relaciones y distancias sociales (d_ij)
-│   └── true_nodes.csv         # Ground truth (miembros reales de la banda objetivo)
+├── data/
+│   ├── reportes/                 # Colocar aquí los PDFs policiales de entrada
+│   ├── resumenes_casos/          # Resúmenes forenses en texto generados por Gemini
+│   ├── graficos_resultados/      # Visualizaciones PNG de las redes detectadas
+│   ├── informes_fiscalia/        # Informes fiscales formales en formato Markdown
+│   └── fiscalia.db               # Base de datos relacional de la fiscalía (SQLite)
 │
-├── src/                       # Código fuente principal
-│   ├── agents/                # Módulos de los 5 Agentes Autónomos
-│   ├── database/              # Conexión con Neo4j
-│   ├── utils/                 # Modelos matemáticos (PuLP) y métricas
-│   └── main.py                # Orquestador principal de LangGraph
+├── src/
+│   ├── agents/
+│   │   ├── ingestion_agent.py    # Procesamiento y extracción de PDFs
+│   │   ├── pruning_agent.py      # Poda estructural y filtrado de redes
+│   │   ├── stpro_agent.py        # Modelo de optimización matemática con Gurobi
+│   │   ├── visualization_agent.py# Generación de grafos con NetworkX/Matplotlib
+│   │   └── explanation_agent.py  # Redacción de informes fiscales con IA
+│   │
+│   ├── graph/
+│   │   └── workflow.py           # Definición del grafo de estados en LangGraph
+│   │
+│   └── main.py                   # Orquestador y punto de entrada principal
 │
-├── .env                       # Variables de entorno
-├── requirements.txt           # Dependencias del proyecto
-└── README.md                  # Documentación
-=======
-TRABAJO EN CREACION DE GRAFOS DELICTUALES MEDIANTE AGENTES DE IA, PARA LUEGO OPTMIZAR ESTOS MEDIANTES STPRO (STEINNER TREE PROSECUTOR)
-
+├── .gitignore                    # Exclusión de archivos sensibles y datos locales
+├── requirements.txt              # Dependencias del proyecto (UTF-8)
+└── README.md                     # Documentación oficial del repositorio
