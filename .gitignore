@@ -1,0 +1,22 @@
+# Entornos virtuales
+venv/
+env/
+ENV/
+
+# Variables de entorno y credenciales sensibles
+.env
+
+# Archivos de caché de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+
+# Datos locales o temporales de la tesis
+data/raw/
+data/temp/
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
