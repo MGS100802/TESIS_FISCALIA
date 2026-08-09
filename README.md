@@ -1,5 +1,5 @@
 # TESIS_FISCALIA
-<<<<<<< HEAD
+
 # Sistema Multi-Agente Autónomo para Detección y Análisis de Redes Criminales
 
 Sistema inteligente basado en **Arquitectura Multi-Agente (MAS)**, **Teoría de Grafos** y **Optimización Matemática (Gurobi)**, orquestado mediante **LangGraph**, diseñado para automatizar la ingesta de partes policiales, el filtrado estructural de redes delictivas, la persecución penal y la generación de informes forenses para el Ministerio Público / Fiscalía.
