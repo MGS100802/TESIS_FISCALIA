@@ -1,7 +1,6 @@
 import os
 import matplotlib.pyplot as plt
 import networkx as nx
-from pathlib import Path
 
 class VisualizationAgent:
     def __init__(self, output_dir="data/graficos_resultados"):

@@ -9,7 +9,7 @@ from src.agents.Optimization_Agent import StProOptimizationAgent
 from src.agents.Visualization_Agent import VisualizationAgent
 from src.agents.Explanation_Agent import ExplanationAgent
 
-# 1. Definir el Estado Compartido (Memory State del pipeline)
+# 1. Definir el Estado Compartido 
 class CriminalGraphState(TypedDict):
     pdf_list: List[str]
     current_index: int
@@ -30,17 +30,17 @@ class CriminalInvestigationWorkflow:
         self.workflow = self._construir_grafo()
 
     def _construir_grafo(self):
-        # Inicializar el grafo con el esquema de estado
+        # Inicializar el grafo agentico con el esquema de estado
         builder = StateGraph(CriminalGraphState)
 
-        # Registrar los nodos (pasos del pipeline autónomo)
+        # Registrar los nodos del pipeline
         builder.add_node("descubrir_reportes", self.node_descubrir_reportes)
         builder.add_node("ingesta_cognitiva", self.node_ingesta_cognitiva)
         builder.add_node("cargar_db_fiscalia", self.node_cargar_db_fiscalia)
         builder.add_node("optimizacion_gurobi", self.node_optimizacion_gurobi)
         builder.add_node("generar_grafico", self.node_generar_grafico)
 
-        # Definir las conexiones lógicas (Edges)
+        # Definir las conexiones lógicas 
         builder.add_edge(START, "descubrir_reportes")
         
         # Condicional autónomo: Si hay reportes, procesar; si no, terminar
@@ -66,11 +66,12 @@ class CriminalInvestigationWorkflow:
                 "Fin": END
             }
         )
+
+        #Ver la arquitectura final del grafo agentico para ver si es necesario agregar edges condicionales (volver a correr la optimizacion para mas ruts en el mismo caso, por ejemplo)
         return builder.compile()
     
     def node_descubrir_reportes(self, state: CriminalGraphState):
         print("\n[LangGraph] Buscando reportes policiales pendientes...")
-        # AHORA USAMOS EL NOMBRE CORRECTO QUE DEFINISTE EN TU AGENTE
         pdf_list = self.ingestor.extract_list_of_pdfs() 
         return {
             "pdf_list": pdf_list,
@@ -95,6 +96,7 @@ class CriminalInvestigationWorkflow:
         }
     def node_cargar_db_fiscalia(self, state: CriminalGraphState):
         print("\n[LangGraph] Cargando bases de datos institucionales de la fiscalía...")
+        #Aqui hay que cargar las bases de datos locales verdaderas, probablemente cambiar a conexion con base datos SQL para consultas cruzadas entre diferentes bases
         nodes_df = pd.read_csv(os.path.join(self.data_dir, "nodes.csv"))
         edges_df = pd.read_csv(os.path.join(self.data_dir, "edges.csv"))
         return {
@@ -130,7 +132,6 @@ class CriminalInvestigationWorkflow:
                 nodo_raiz=raiz_objetivo,
                 nombre_caso=state["nombre_caso"]
                                                 )
-            # Incrementar el índice para avanzar al siguiente reporte
         return state
 
     def node_generar_informe_fiscal(self, state: CriminalGraphState):
@@ -141,7 +142,6 @@ class CriminalInvestigationWorkflow:
             nodos_banda=state["nodos_banda"],
             ruts_raiz=state["ruts_involucrados"]
         )
-        # Avanzar índice de casos autónomamente
         return {"current_index": state["current_index"] + 1}
     
     def evaluar_reportes_pendientes(self, state: CriminalGraphState) -> str:

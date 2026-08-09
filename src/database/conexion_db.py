@@ -3,11 +3,10 @@ from neo4j import GraphDatabase
 from dotenv import load_dotenv
 
 load_dotenv()
-
-# Cambiamos 'localhost' por '127.0.0.1' para evitar el conflicto con IPv6
-URI = "bolt://127.0.0.1:7687"
-USER = "neo4j"
-PASSWORD = "Mgs21085$$"  # Asegúrate de que coincida con tu clave de Neo4j
+"""Conexion a la base de datos de grafos Neo4j para la fiscalía. Posible modificacion a base de datos estatica local para pruebas de desarrollo, pero se recomienda usar la base de datos institucional de la fiscalía para resultados reales."""
+URI = os.getenv("NEO4J_URI")
+USER = os.getenv("NEO4J_USER")
+PASSWORD = os.getenv("NEO4J_PASSWORD")
 
 def probar_conexion():
     try:
