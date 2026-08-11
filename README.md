@@ -24,7 +24,7 @@ flowchart TD
     
     C -->|"Subgrafo podado relevante"| E["StProOptimizationAgent <br> Gurobi MIP / StRAM"]
     
-    E --> F{"AuditorAgent<br>Control de Calidad Forense"}
+    E --> F{"AuditorAgent <br> Control de Calidad Forense"}
     
     F -->|"Infactible o solución trivial: reintentar y calibrar phi"| E
     F -->|"Solución válida y aprobada"| G["Análisis de Interdicción Táctica <br> Cálculo de Blanco de Alto Impacto (HVT)"]
