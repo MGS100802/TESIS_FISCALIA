@@ -57,7 +57,7 @@ flowchart TD
    - **Interdicción de Redes (*Network Interdiction*):** Simula la remoción individual de cada sospechoso para identificar al **Blanco de Alto Impacto (HVT - High-Value Target)** cuya captura quiebra la conectividad de la banda y facilita la desarticulación del grupo.
 
 5. **`VisualizationAgent` (`src/agents/Visualization_Agent.py`)**:
-   - Genera representaciones visuales destacando nodos raíz, banda aislada y entorno.
+   - Genera representaciones visuales (`data/graficos_resultados/`) destacando nodos raíz, banda aislada y entorno.
 
 6. **`ExplanationAgent` (`src/agents/Explanation_Agent.py`)**:
    - Redacta el informe forense formal (`data/informes_fiscalia/`) para el fiscal adjunto, integrando la estrategia HVT.
