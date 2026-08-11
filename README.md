@@ -16,13 +16,13 @@ El flujo opera mediante un **Grafo Dirigido Cíclico** con bucles de retroalimen
 
 ```mermaid
 flowchart TD
-    A["Parte Policial PDF"] --> B["IngestionAgent<br>Extracción cognitiva con Gemini"]
-    B -->|"Extrae sospechosos, tipología y metadatos"| C["PruningAgent / FilterAgent<br>Poda adaptativa y criminológica"]
+    A["Parte Policial PDF"] --> B["IngestionAgent <br> Extracción cognitiva con Gemini"]
+    B -->|"Extrae sospechosos, tipología y metadatos"| C["PruningAgent / FilterAgent <br> Poda adaptativa y criminológica"]
     
     C -->|"Consulta grafo institucional"| D[("Base de Datos: Nodos y Aristas")]
     D --> C
     
-    C -->|"Subgrafo podado relevante"| E["StProOptimizationAgent<br>Gurobi MIP / StRAM"]
+    C -->|"Subgrafo podado relevante"| E["StProOptimizationAgent <br> Gurobi MIP / StRAM"]
     
     E --> F{"AuditorAgent<br>Control de Calidad Forense"}
     
