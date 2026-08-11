@@ -33,7 +33,7 @@ flowchart TD
     H --> I["ExplanationAgent <br> Redacción Jurídica con Gemini"]
     I --> J["Informe Forense"]
     
-    J -.->|"Bucle de Cola: ¿Quedan más reportes por procesar?"| A
+    J -.->|"¿Quedan más reportes por procesar?"| A
 ```
 
 ---
