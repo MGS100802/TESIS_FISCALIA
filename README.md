@@ -41,26 +41,26 @@ flowchart TD
 ## 2. Agentes Especializados del Ecosistema
 
 1. **`IngestionAgent` (`src/agents/Ingestion_Agent.py`)**:
-   - Lee partes policiales en PDF y extrae sospechosos clave (RUTs raíz), tamaño estimado de la banda, tipología penal y metadatos forenses usando **Google Gemini**.
+   - Lee partes policiales en PDF y extrae sospechosos clave (RUTs raíz), tamaño estimado de la banda y metadatos forenses usando **Google Gemini**.
    - Genera resúmenes forenses en `data/resumenes_casos/`.
 
 2. **`PruningAgent` (`src/agents/Filter_Agent.py`)**:
-   - **Poda Adaptativa:** Si $N \le 50$, preserva delitos instrumentales conexos (receptación de autos, armas); si $N > 50$, activa poda por $k$-hops y afinidad delictiva descartando delitos disonantes (fraudes/estafas menores).
+   - **Poda Adaptativa:** Si $N \le 50$, preserva delitos conexos (receptación de autos, armas); si $N > 50$, activa poda por $k$-hops y afinidad delictiva descartando delitos disonantes (fraudes/estafas menores).
    - **Protección de Puentes:** Blindaje de puntos de articulación (`nx.articulation_points`) para evitar fracturar la red.
 
 3. **`StProOptimizationAgent` (`src/agents/Optimization_Agent.py`)**:
-   - Resuelve el modelo de Árboles de Steiner Ponderados (`StRAM`) en **Gurobi**.
+   - Resuelve el modelo StPro (`StRAM`) en **Gurobi**.
    - Incorpora bucle adaptativo de calibración de $\phi$ ante soluciones triviales.
 
 4. **`AuditorAgent` (`src/agents/Auditor_Agent.py`)**:
-   - **Control de Calidad:** Valida no-trivialidad ($|V_{\text{banda}}| > 1$), cotejo de tamaño frente al PDF y coherencia de riesgo ($\Delta\text{PCG}$).
-   - **Interdicción de Redes (*Network Interdiction*):** Simula la remoción individual de cada sospechoso para identificar al **Blanco de Alto Impacto (HVT - High-Value Target)** cuya captura quiebra la conectividad de la banda.
+   - **Control de Calidad:** Valida no-trivialidad del grafo resultante por la optimización ($|V_{\text{banda}}| > 1$), comparacion de tamaño frente al reporte y coherencia de riesgo ($\Delta\text{PCG}$).
+   - **Interdicción de Redes (*Network Interdiction*):** Simula la remoción individual de cada sospechoso para identificar al **Blanco de Alto Impacto (HVT - High-Value Target)** cuya captura quiebra la conectividad de la banda y facilita la desarticulación del grupo.
 
 5. **`VisualizationAgent` (`src/agents/Visualization_Agent.py`)**:
-   - Genera representaciones visuales en alta resolución (PNG, 300 DPI) destacando nodos raíz, banda aislada y entorno.
+   - Genera representaciones visuales destacando nodos raíz, banda aislada y entorno.
 
 6. **`ExplanationAgent` (`src/agents/Explanation_Agent.py`)**:
-   - Redacta el informe forense formal y la propuesta de persecución penal en Markdown (`data/informes_fiscalia/`) para el fiscal adjunto, integrando la estrategia HVT.
+   - Redacta el informe forense formal (`data/informes_fiscalia/`) para el fiscal adjunto, integrando la estrategia HVT.
 
 ---
 
@@ -73,10 +73,10 @@ TESIS_FISCALIA/
 │   ├── reportes/                 # PDFs policiales de entrada
 │   ├── resumenes_casos/          # Resúmenes forenses en TXT generados por Gemini
 │   ├── graficos_resultados/      # Gráficos PNG de las redes detectadas
-│   ├── informes_fiscalia/        # Informes formales para Fiscalía en Markdown (.md)
-│   ├── nodes.csv                 # Base de datos de sospechosos (id, pcg, label)
-│   ├── edges.csv                 # Base de datos de vínculos (source, target, distance)
-│   └── true_nodes.csv            # Ground Truth para validación de la tesis
+│   ├── informes_fiscalia/        # Informes formales para Fiscalía.
+│   ├── nodes.csv                 # Base de datos de sospechosos (id, pcg, label) (momentaneos)
+│   ├── edges.csv                 # Base de datos de vínculos (source, target, distance) (momentaneos)
+│   └── true_nodes.csv            # Ground Truth para validación  (momentaneos)
 │
 ├── src/
 │   ├── agents/
