@@ -29,7 +29,7 @@ flowchart TD
     F -->|"Infactible o solución trivial: reintentar y calibrar phi"| E
     F -->|"Solución válida y aprobada"| G["Análisis de Interdicción Táctica <br> Cálculo de Blanco de Alto Impacto (HVT)"]
     
-    G --> H["VisualizationAgent<br>Renderizado de Red Criminal"]
+    G --> H["VisualizationAgent <br> Ilustración de Red Criminal"]
     H --> I["ExplanationAgent<br>Redacción Jurídica con Gemini"]
     I --> J["Informe Forense"]
     
