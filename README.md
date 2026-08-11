@@ -16,22 +16,22 @@ El flujo opera mediante un **Grafo Dirigido Cíclico** con bucles de retroalimen
 
 ```mermaid
 flowchart TD
-    A["Parte Policial PDF"] --> B["IngestionAgent<br>Extracción cognitiva con Gemini"]
-    B -->|"Extrae sospechosos, tipología y metadatos"| C["PruningAgent / FilterAgent<br>Poda adaptativa y criminológica"]
+    A["Parte Policial PDF"] --> B["IngestionAgent <br> Extracción cognitiva con Gemini"]
+    B -->|"Extrae sospechosos, tipología y metadatos"| C["PruningAgent / FilterAgent <br> Poda adaptativa y criminológica"]
     
     C -->|"Consulta grafo institucional"| D[("Base de Datos: Nodos y Aristas")]
     D --> C
     
-    C -->|"Subgrafo podado relevante"| E["StProOptimizationAgent<br>Gurobi MIP / StRAM"]
+    C -->|"Subgrafo podado relevante"| E["StProOptimizationAgent <br> Gurobi MIP / StRAM"]
     
     E --> F{"AuditorAgent<br>Control de Calidad Forense"}
     
     F -->|"Infactible o solución trivial: reintentar y calibrar phi"| E
-    F -->|"Solución válida y aprobada"| G["Análisis de Interdicción Táctica<br>Cálculo de Blanco de Alto Impacto (HVT)"]
+    F -->|"Solución válida y aprobada"| G["Análisis de Interdicción Táctica <br> Cálculo de Blanco de Alto Impacto (HVT)"]
     
     G --> H["VisualizationAgent<br>Renderizado de Red Criminal"]
     H --> I["ExplanationAgent<br>Redacción Jurídica con Gemini"]
-    I --> J["Informe Forense y Dictamen Penal (Markdown)"]
+    I --> J["Informe Forense"]
     
     J -.->|"Bucle de Cola: ¿Quedan más reportes por procesar?"| A
 ```
