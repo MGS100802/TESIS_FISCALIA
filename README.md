@@ -16,13 +16,13 @@ El flujo opera mediante un **Grafo Dirigido Cíclico** con bucles de retroalimen
 
 ```mermaid
 flowchart TD
-    A["Parte Policial PDF"] --> B["IngestionAgent <br> Extracción cognitiva con Gemini"]
-    B -->|"Extrae sospechosos, tipología y metadatos"| C["PruningAgent / FilterAgent <br> Poda adaptativa y criminológica"]
+    A["Parte Policial PDF"] --> B["IngestionAgent<br>Extracción cognitiva con Gemini"]
+    B -->|"Extrae sospechosos, tipología y metadatos"| C["PruningAgent / FilterAgent<br>Poda adaptativa y criminológica"]
     
     C -->|"Consulta grafo institucional"| D[("Base de Datos: Nodos y Aristas")]
     D --> C
     
-    C -->|"Subgrafo podado relevante"| E["StProOptimizationAgent <br> Gurobi MIP / StRAM"]
+    C -->|"Subgrafo podado relevante"| E["StProOptimizationAgent<br>Gurobi MIP / StRAM"]
     
     E --> F{"AuditorAgent<br>Control de Calidad Forense"}
     
@@ -53,26 +53,18 @@ flowchart TD
    - Incorpora bucle adaptativo de calibración de $\phi$ ante soluciones triviales.
 
 4. **`AuditorAgent` (`src/agents/Auditor_Agent.py`)**:
-   - Realiza control de calidad criminológico y valida el diferencial de riesgo ($\Delta\text{PCG}$).
-   - Simula **Interdicción de Redes (*Network Interdiction*)** para identificar al **Blanco de Alto Impacto (HVT - High-Value Target)** cuya captura quiebra la conectividad de la banda.
+   - **Control de Calidad:** Valida no-trivialidad ($|V_{\text{banda}}| > 1$), cotejo de tamaño frente al PDF y coherencia de riesgo ($\Delta\text{PCG}$).
+   - **Interdicción de Redes (*Network Interdiction*):** Simula la remoción individual de cada sospechoso para identificar al **Blanco de Alto Impacto (HVT - High-Value Target)** cuya captura quiebra la conectividad de la banda.
 
 5. **`VisualizationAgent` (`src/agents/Visualization_Agent.py`)**:
    - Genera representaciones visuales en alta resolución (PNG, 300 DPI) destacando nodos raíz, banda aislada y entorno.
 
 6. **`ExplanationAgent` (`src/agents/Explanation_Agent.py`)**:
-   - Redacta el informe forense formal y la propuesta de persecución penal en Markdown (`data/informes_fiscalia/`) para el fiscal adjunto.
+   - Redacta el informe forense formal y la propuesta de persecución penal en Markdown (`data/informes_fiscalia/`) para el fiscal adjunto, integrando la estrategia HVT.
 
 ---
 
-## 3. Métricas y Evaluación Científica (`src/utils/metrics.py`)
-
-- **Clasificación vs. Ground Truth (`data/true_nodes.csv`):** Precision, Recall, F1-Score, Jaccard Similarity Index, Accuracy.
-- **Métricas de Red:** Propensión criminal promedio ($\overline{\text{PCG}}$), densidad interna, clustering promedio, conectividad.
-- **Interdicción Táctica:** Caída porcentual de eficiencia global ($\Delta E_{\text{global}}$), centralidad de intermediación (*Betweenness*) y score de prioridad de detención.
-
----
-
-## 4. Estructura del Repositorio
+## 3. Estructura del Repositorio
 
 ```text
 TESIS_FISCALIA/
@@ -100,7 +92,7 @@ TESIS_FISCALIA/
 │   │
 │   ├── utils/
 │   │   ├── models_STRAM_KsRAM.py # Formulaciones matemáticas en Gurobi (StRAM, KsRAM, RGEN)
-│   │   └── metrics.py            # Evaluación cuantitativa, métricas de red e interdicción
+│   │   └── metrics.py            # Módulo utilitario de métricas
 │   │
 │   └── database/                 # Módulos de persistencia y consultas institucionales
 │
@@ -112,7 +104,7 @@ TESIS_FISCALIA/
 
 ---
 
-## 5. Instalación y Ejecución
+## 4. Instalación y Ejecución
 
 ```bash
 # 1. Crear y activar entorno virtual
