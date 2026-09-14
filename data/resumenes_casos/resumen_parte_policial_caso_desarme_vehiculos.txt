@@ -1,0 +1,13 @@
+Resumen del Caso parte_policial_caso_desarme_vehiculos:
+Investigación por una organización criminal dedicada a la sustracción y desarme ilícito de vehículos motorizados, operando mediante la distribución de roles entre ejecutores de robos y receptadores de piezas.
+
+Metadatos Útiles:
+- Armas_incautadas: None
+- Herramientas: Instrumentos de oxicorte
+- Especies: Autopartes de alta gama
+- Comunas_afectadas: ['San Bernardo', 'El Bosque']
+- Modus_operandi: Sustracción y desarme de vehículos con distribución de roles
+- Delitos_conexos: ['Robo con fuerza', 'Receptación']
+
+- Número de sospechosos (Tamaño del grupo): 8
+- Nodos raíz (RUTs clave): 4, 5

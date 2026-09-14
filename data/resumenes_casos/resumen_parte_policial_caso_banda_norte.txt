@@ -1,12 +1,11 @@
 Resumen del Caso parte_policial_caso_banda_norte:
-Investigación sobre una organización criminal dedicada al robo con violencia, intimidación, receptación de vehículos y asociación ilícita, operando en la zona norte de la Región Metropolitana con una estructura jerárquica definida.
+Investigación sobre una organización criminal dedicada al robo con violencia, intimidación y receptación de vehículos en la zona norte de la Región Metropolitana.
 
 Metadatos Útiles:
-- Armas_incautadas: 2 pistolas 9mm y munición
-- Vehiculos: 3 SUV con encargo por robo
-- Comunas: ['Quilicura', 'Renca', 'Lampa']
+- Armas_incautadas: ['2 pistolas 9mm', 'munición']
+- Vehiculos_identificados: ['3 SUV con encargo por robo']
+- Comunas_afectadas: ['Quilicura', 'Renca', 'Lampa']
 - Delitos_conexos: ['Receptación', 'Porte ilegal de armas', 'Asociación ilícita']
-- Parte_policial: 2026-08-9901
 
 - Número de sospechosos (Tamaño del grupo): 12
 - Nodos raíz (RUTs clave): 1, 3

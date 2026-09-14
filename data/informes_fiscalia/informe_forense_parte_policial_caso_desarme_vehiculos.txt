@@ -1,0 +1,23 @@
+================================================================================
+INFORME PERICIAL Y SUGERENCIA DE DILIGENCIAS TACTICAS - MINISTERIO PUBLICO
+================================================================================
+CASO: parte_policial_caso_desarme_vehiculos
+FECHA DE EMISION: 2026-08-21
+UNIDAD: Analisis Criminal y Complejidad del Delito
+
+1. ANTECEDENTES Y RESUMEN DEL CASO
+Investigacion sobre red clandestina de sustraccion y despiece de vehiculos motorizados en San Bernardo.
+
+2. ANALISIS DE REDES Y OPTIMIZACION MATEMATICA (Gurobi StRAM)
+Tras la aplicacion del modelo de Arboles de Steiner Ponderados adaptativo, se ha aislado exitosamente la celula criminal operativa compuesta por 11 sospechosos clave:
+Nodos integrantes de la banda: [1, 3, 6, 26, 37, 51, 58, 66, 67, 75, 77]
+
+3. INTERDICCION TACTICA Y IDENTIFICACION DE BLANCO HVT
+El AuditorAgent ha evaluado la fragilidad estructural del grafo.
+* Blanco de Alto Impacto (HVT): NODO 77
+* Fundamento Tactico: La neutralizacion/detencion prioritaria del Nodo 77 causa la maxima desarticulacion de conectividad en la organizacion, aislando a sus ramificaciones operativas.
+
+4. RECOMENDACIONES DILIGENCIAS FISCALIA
+- Solicitar orden de detencion prioritaria sobre el Blanco HVT (Nodo 77).
+- Allanamiento simultaneo sobre los domicilios vinculados a los nodos [1, 3, 6].
+================================================================================

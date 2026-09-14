@@ -1,39 +1,40 @@
-# TESIS_FISCALIA
+# MINISTERIO PÚBLICO | FISCALÍA DE CHILE
 
-## Sistema Multi-Agente Autónomo para Detección, Análisis y Desarticulación de Redes Criminales
+## Plataforma Multi-Agente Autónoma de Inteligencia Criminal y Desarticulación de Redes Delictivas (HeredIA)
 
-Sistema inteligente de apoyo a la toma de decisiones para el **Ministerio Público / Fiscalía**, fundamentado en la convergencia de:
-- **Arquitectura Multi-Agente (MAS)** orquestada mediante **LangGraph**.
-- **Modelos de Lenguaje Avanzados (LLMs)** mediante **Google Gemini** para la ingesta cognitiva y redacción forense.
-- **Teoría de Grafos y Análisis de Redes Complejas (CNA)** implementado en **NetworkX**.
+Sistema inteligente de apoyo a la toma de decisiones para la **Unidad de Análisis Criminal y Focos Investigativos del Ministerio Público**, fundamentado en la convergencia de:
+- **Arquitectura Multi-Agente (MAS)** orquestada mediante grafos de estado en **LangGraph**.
+- **Modelos de Lenguaje Avanzados (LLMs)** mediante **Google Gemini** para la ingesta cognitiva de partes policiales y la redacción pericial jurídica formal.
+- **Teoría de Grafos y Análisis de Redes Complejas (CNA)** implementado sobre **NetworkX**.
 - **Optimización Matemática Lineal Entera Mixta (MIP)** resuelta con **Gurobi** (modelos de Árboles de Steiner Ponderados - *StRAM/KsRAM*).
+- **Despliegue Seguro Contenerizado en Docker** para garantizar la soberanía, confidencialidad y cadena de custodia de la información procesal sensible (*On-Premise*).
 
 ---
 
-## 1. Grafo Cíclico del Workflow Multi-Agente
+## 1. Arquitectura y Grafo de Flujo Multi-Agente
 
-El flujo opera mediante un **Grafo Dirigido Cíclico** con bucles de retroalimentación, autocorrección de parámetros matemáticos y gestión de colas de casos:
+El sistema opera mediante un **Grafo Dirigido Cíclico en LangGraph**, incorporando bucles de retroalimentación, calibración adaptativa de parámetros y control de calidad pericial:
 
 ```mermaid
 flowchart TD
-    A["Parte Policial PDF"] --> B["IngestionAgent <br> Extracción cognitiva con Gemini"]
-    B -->|"Extrae sospechosos, tipología y metadatos"| C["PruningAgent / FilterAgent <br> Poda adaptativa y criminológica"]
+    A["Parte Policial en PDF"] --> B["IngestionAgent <br> Extracción cognitiva con Gemini"]
+    B -->|"Extrae sospechosos raíz, tamaño y tipología"| C["FilterAgent / LevelFilterAgent <br> Poda adaptativa y filtrado por niveles (k-hops)"]
     
-    C -->|"Consulta grafo institucional"| D[("Base de Datos: Nodos y Aristas")]
+    C -->|"Consulta base relacional institucional"| D[("Base de Datos: Nodos y Aristas")]
     D --> C
     
-    C -->|"Subgrafo podado relevante"| E["StProOptimizationAgent <br> Gurobi MIP / StRAM"]
+    C -->|"Subred relevante por nivel"| E["StProOptimizationAgent <br> Gurobi MIP (StRAM)"]
     
     E --> F{"AuditorAgent <br> Control de Calidad Forense"}
     
-    F -->|"Infactible o solución trivial: reintentar y calibrar phi"| E
-    F -->|"Solución válida y aprobada"| G["Análisis de Interdicción Táctica <br> Cálculo de Blanco de Alto Impacto (HVT)"]
+    F -->|"Solución trivial o infactible: recalibrar phi"| E
+    F -->|"Solución aprobada: Interdicción de Redes"| G["Cálculo de Blanco de Alto Impacto (HVT)"]
     
-    G --> H["VisualizationAgent <br> Ilustración de Red Criminal"]
-    H --> I["ExplanationAgent <br> Redacción Jurídica con Gemini"]
-    I --> J["Informe Forense"]
+    G --> H["VisualizationAgent <br> Cartografía de Red Criminal"]
+    H --> I["ExplanationAgent <br> Redacción Pericial para Fiscalía"]
+    I --> J["Informe Jurídico Formal"]
     
-    J -.->|"¿Quedan más reportes por procesar?"| A
+    J -.->|"Gestión de Cola Multi-Caso"| A
 ```
 
 ---
@@ -41,177 +42,153 @@ flowchart TD
 ## 2. Agentes Especializados del Ecosistema
 
 1. **`IngestionAgent` (`src/agents/Ingestion_Agent.py`)**:
-   - Lee partes policiales en PDF y extrae sospechosos clave (RUTs/IDs raíz), tamaño estimado de la banda y metadatos forenses usando **Google Gemini**.
-   - Genera resúmenes forenses en `data/resumenes_casos/`.
+   - Analiza partes policiales en PDF y extrae de forma estructurada los imputados principales (nodos raíz), tamaño estimado de la organización y metadatos forenses.
+   - Genera resúmenes estructurados en `data/resumenes_casos/`.
 
-2. **`PruningAgent` (`src/agents/Filter_Agent.py`)**:
-   - **Poda Adaptativa:** Si $N \le 50$, preserva delitos conexos (receptación de autos, armas); si $N > 50$, activa poda por $k$-hops y afinidad delictiva descartando delitos disonantes (fraudes/estafas menores).
-   - **Protección de Puentes:** Blindaje de puntos de articulación (`nx.articulation_points`) para evitar fracturar la red.
+2. **`FilterAgent` / `LevelFilterAgent` (`src/agents/Filter_Agent.py`)**:
+   - **Poda Criminológica:** Preserva delitos conexos (armas, receptación) y descarta ruido no relacionado.
+   - **Protección de Puentes:** Blindaje de puntos de articulación (`nx.articulation_points`) para no fragmentar prematuramente la red.
+   - **Segmentación por Niveles ($k$-hops):**
+     - **Nivel 1 (1 Salto):** Contacto directo y coautores inmediatos del parte.
+     - **Nivel 2 (2 Saltos - Recomendado):** Célula operativa cercana y testaferros.
+     - **Nivel 3 (3 Saltos):** Estructura criminal ampliada, financistas y proveedores.
 
 3. **`StProOptimizationAgent` (`src/agents/Optimization_Agent.py`)**:
-   - Resuelve el modelo StPro (`StRAM`) en **Gurobi**.
-   - Incorpora bucle adaptativo de calibración de $\phi$ ante soluciones triviales.
+   - Resuelve la formulación de Árboles de Steiner Ponderados (**StPro / StRAM**) en **Gurobi**.
+   - Incorpora bucle adaptativo de calibración automática del parámetro $\phi$.
 
 4. **`AuditorAgent` (`src/agents/Auditor_Agent.py`)**:
-   - **Control de Calidad:** Valida no-trivialidad del grafo resultante por la optimización ($|V_{\text{banda}}| > 1$), comparación de tamaño frente al reporte y coherencia de riesgo ($\Delta\text{PCG}$).
-   - **Interdicción de Redes (*Network Interdiction*):** Simula la remoción individual de cada sospechoso para identificar al **Blanco de Alto Impacto (HVT - High-Value Target)** cuya captura quiebra la conectividad de la banda y facilita la desarticulación del grupo.
+   - **Auditoría Forense:** Valida que la solución sea conexa, no-trivial y consistente con el reporte policial.
+   - **Interdicción Táctica (*Network Interdiction*):** Simula la remoción individual de cada sospechoso para identificar al **Blanco de Alto Impacto (HVT - High-Value Target)**, cuya detención causa la máxima desarticulación de la banda.
 
 5. **`VisualizationAgent` (`src/agents/Visualization_Agent.py`)**:
-   - Genera representaciones visuales (`data/graficos_resultados/`) destacando nodos raíz, banda aislada y entorno.
+   - Genera diagramas de red en alta resolución (`data/graficos_resultados/`) y paneles comparativos multinivel de 3 columnas.
 
 6. **`ExplanationAgent` (`src/agents/Explanation_Agent.py`)**:
-   - Redacta el informe forense formal (`data/informes_fiscalia/`) para el fiscal adjunto, integrando la estrategia HVT.
+   - Redacta informes periciales formales con fundamentación táctica y jurídica (`data/informes_fiscalia/`) para sustentar órdenes de detención y allanamientos ante el Tribunal de Garantía.
 
-7. **`Copiloto HeredIA` (`demo_orquestador_interactivo.py`)**:
-   - Asistente conversacional inteligente basado en **LangGraph + Gemini** con arquitectura *Tool-Calling*. Permite interactuar mediante chat en lenguaje natural para solicitar diligencias, consultas a la base de datos, optimización y peritajes de forma dinámica.
+7. **`Copiloto HeredIA` (`demo_orquestador_interactivo.py` / `streamlit_app.py`)**:
+   - Asistente conversacional institucional con *Tool-Calling*, memoria multi-caso persistente y tolerancia avanzada a errores tipográficos (*fuzzy matching*).
 
 ---
 
-## 3. Estructura del Repositorio
+## 3. Despliegue Oficial con Docker (Estándar de Entrega)
+
+La plataforma se entrega empaquetada en un contenedor **Docker** para garantizar aislamiento perimetral, confidencialidad de datos sensibles y portabilidad inmediata sin requerir configuración de software en los equipos del Ministerio Público.
+
+### Requisitos Previos:
+- Tener instalado **Docker Desktop** (en Windows o macOS) o el motor **Docker Engine** (en Linux).
+
+### Paso 1: Configurar Credenciales (`.env`)
+Verifique que el archivo `.env` en la raíz del proyecto contenga su clave de API de **Google Gemini**:
+```env
+GOOGLE_GENAI_API_KEY="tu_api_key_de_gemini"
+```
+> *Nota: Si no dispone de conexión o clave API, el sistema activa automáticamente su modo local/predictivo de respaldo para garantizar la continuidad operativa.*
+
+### Paso 2: Iniciar la Aplicación (1-Clic)
+
+#### En Windows:
+Haga doble clic en el archivo:
+```text
+iniciar_con_docker.bat
+```
+O ejecute en PowerShell / CMD:
+```powershell
+docker-compose up --build -d
+```
+
+#### En Linux / macOS:
+Ejecute en la terminal:
+```bash
+./iniciar_con_docker.sh
+```
+O directamente:
+```bash
+docker-compose up --build -d
+```
+
+### Paso 3: Acceso a la Plataforma
+El navegador se abrirá automáticamente (o puede ingresar manualmente) en:
+👉 **`http://localhost:8501`**
+
+### Paso 4: Detener la Plataforma
+Cuando finalice la sesión, ejecute en la terminal:
+```powershell
+docker-compose down
+```
+O detenga el contenedor `heredia_fiscalia_app` desde la interfaz de Docker Desktop.
+
+> **Persistencia y Seguridad de Datos:** Todos los partes policiales subidos (`data/reportes/`), diagramas generados (`data/graficos_resultados/`) e informes periciales (`data/informes_fiscalia/`) se sincronizan en tiempo real con su computadora anfitriona mediante volúmenes montados seguros.
+
+---
+
+## 4. Manual de Operación del Dashboard Web (Streamlit)
+
+La interfaz se divide en **5 módulos operativos**:
+
+1. **Copiloto HeredIA (Asistente Interactivo):**
+   - Chat en lenguaje natural para realizar consultas criminológicas (*ej. "¿quiénes son los sospechosos?", "optimiza en nivel 2", "evalúa el blanco HVT"*).
+   - Botones de acción rápida institucional.
+
+2. **Red Criminal & Blanco HVT:**
+   - Visualizador del diagrama de la red criminal aislada.
+   - Justificación táctica de neutralización del **Blanco Prioritario (HVT)**.
+   - Tabla de integrantes de la célula con prioridad procesal (Órdenes de Detención vs. Seguimiento).
+
+3. **Análisis Comparativo Multinivel:**
+   - Ejecución y visualización en paralelo de la expansión de la red a 1, 2 y 3 saltos topológicos desde el imputado raíz.
+   - Cuadro comparativo de utilidad procesal para formalizaciones por Asociación Ilícita o Lavado de Activos.
+
+4. **Informe Pericial Formal (Tribunal):**
+   - Vista previa del informe pericial formal emitido para el Fiscal Adjunto.
+   - **Botón de descarga directa en 1 clic (`.txt`)**.
+
+5. **Procesamiento Automatizado en Lote:**
+   - Ejecución desatendida sobre todos los partes policiales en cola en Nivel 1, Nivel 2 o Multinivel.
+   - Tabla de seguimiento del estado de cada expediente.
+
+---
+
+## 5. Estructura del Proyecto
 
 ```text
 TESIS_FISCALIA/
 │
+├── docker-compose.yml              # Configuración de servicios Docker y volúmenes persistentes
+├── Dockerfile                      # Entorno estandarizado (Python 3.11 + Graphviz)
+├── .dockerignore                   # Exclusión de temporales
+├── iniciar_con_docker.bat          # Lanzador oficial 1-Clic para Windows
+├── iniciar_con_docker.sh           # Lanzador para Linux/macOS
+├── requirements.txt                # Dependencias exactas del sistema
+├── streamlit_app.py                # Dashboard web institucional formal (Streamlit)
+├── demo_orquestador_interactivo.py # Motor del Copiloto HeredIA y memoria multi-caso
+├── main.py                         # Punto de entrada general por consola
+├── generar_reportes_demo.py        # Generador de partes policiales de prueba
+├── .env                            # Variables de entorno (API Key)
+├── README.md                       # Documentación técnica y manual de usuario
+│
 ├── data/
-│   ├── reportes/                     # Partes policiales en PDF de entrada
-│   ├── resumenes_casos/              # Resúmenes forenses en TXT generados por Gemini
-│   ├── graficos_resultados/          # Gráficos PNG de las redes detectadas
-│   ├── informes_fiscalia/            # Informes formales redactados para Fiscalía
-│   ├── nodes.csv                     # Base de datos de sospechosos (id, pcg, label)
-│   ├── edges.csv                     # Base de datos de vínculos (source, target, distance)
-│   └── true_nodes.csv                # Ground Truth para validación
+│   ├── reportes/                   # Partes policiales en PDF de entrada
+│   ├── resumenes_casos/            # Resúmenes cognitivos estructurados
+│   ├── graficos_resultados/        # Cartografía y diagramas de red generados (PNG)
+│   ├── informes_fiscalia/          # Informes periciales formales (TXT / MD)
+│   ├── nodes.csv                   # Base de datos institucional de sospechosos
+│   ├── edges.csv                   # Base de datos de vínculos delictivos
+│   └── true_nodes.csv              # Ground Truth de validación
 │
-├── src/
-│   ├── agents/
-│   │   ├── Ingestion_Agent.py        # Ingesta cognitiva de reportes policiales con LLM
-│   │   ├── Filter_Agent.py           # PruningAgent (Poda adaptativa y criminológica)
-│   │   ├── Optimization_Agent.py     # StProOptimizationAgent (Gurobi StRAM adaptativo)
-│   │   ├── Auditor_Agent.py          # AuditorAgent (Control de calidad y cálculo HVT)
-│   │   ├── Visualization_Agent.py    # Generación de gráficos de red
-│   │   └── Explanation_Agent.py      # Redacción de informes jurídicos formales con IA
-│   │
-│   ├── graph/
-│   │   └── workflow.py               # Orquestador del grafo de estados en LangGraph
-│   │
-│   ├── utils/
-│   │   ├── models_STRAM_KsRAM.py     # Formulaciones matemáticas en Gurobi (StRAM, KsRAM, RGEN)
-│   │   └── metrics.py                # Módulo utilitario de métricas
-│   │
-│   └── database/                     # Módulos de persistencia y consultas institucionales
-│
-├── demo_orquestador_interactivo.py   # Orquestador conversacional interactivo (Copiloto HeredIA)
-├── generar_reportes_demo.py          # Generador de partes policiales de prueba en PDF
-├── main.py                           # Punto de entrada y ejecución batch del pipeline
-├── requirements.txt                  # Dependencias del proyecto
-├── .env                              # Variables de entorno (claves API de Google Gemini / Gurobi)
-└── README.md                         # Documentación oficial del proyecto
-```
-
----
-
-## 4. Guía de Instalación y Demostración Local
-
-Seguir estos pasos para clonar, instalar y ejecutar la demostración completa en su computadora:
-
-### Paso 1: Clonar el Repositorio
-Abra una terminal (PowerShell, CMD o Bash) y clone el repositorio:
-```bash
-git clone https://github.com/tu-usuario/TESIS_FISCALIA.git
-cd TESIS_FISCALIA
-```
-
-### Paso 2: Crear y Activar el Entorno Virtual
-
-- **En Windows (PowerShell):**
-  ```powershell
-  python -m venv venv
-  .\venv\Scripts\activate
-  ```
-
-- **En macOS / Linux:**
-  ```bash
-  python3 -m venv venv
-  source venv/bin/activate
-  ```
-
-### Paso 3: Instalar Dependencias
-```bash
-pip install -r requirements.txt
-```
-
-### Paso 4: Configurar Variables de Entorno (`.env`)
-Abra el archivo `.env` en la raíz del proyecto y configure su clave de API de **Google Gemini**:
-```env
-GOOGLE_GENAI_API_KEY="tu_api_key_de_gemini"
-```
-> **Nota:** Si no tiene una clave API al momento de ejecutar, el sistema cuenta con un modo de demostración autónomo de respaldo para asegurar la continuidad de la prueba sin interrupciones. Para crear una API de gemini, ir a https://aistudio.google.com y crear un proyecto y crear la clave de API.
-
----
-
-## 5. Ejecución de la Demostración
-
-### A. Generar los Partes Policiales de Prueba (PDF)
-Genere los partes policiales sintéticos en `data/reportes/`:
-```bash
-python generar_reportes_demo.py
-```
-*Salida esperada:*
-```text
-[OK] Parte policial 1 generado en: data/reportes/parte_policial_caso_banda_norte.pdf
-[OK] Parte policial 2 generado en: data/reportes/parte_policial_caso_desarme_vehiculos.pdf
-```
-
-### B. Demostración Interactiva con el Copiloto HeredIA (LangGraph)
-Inicie el asistente conversacional multi-agente en terminal:
-```bash
-python demo_orquestador_interactivo.py
-```
-
-Al iniciar el Copiloto, puede interactuar en lenguaje natural en el prompt `[Usuario]:`:
-
-```text
-===========================================================================
- COPILOTO HEREDIA - SISTEMA MULTI-AGENTE DE INTELIGENCIA CRIMINAL
- Orquestador: Google Gemini LLM + LangGraph
-===========================================================================
- Caso cargado: parte_policial_caso_banda_norte
- Escriba en lenguaje natural, por ejemplo:
-   - 'Dime quienes eran los sospechosos'
-   - 'Aisla la banda con Gurobi'
-   - '¿Cual es el blanco HVT prioritario para detener?'
-   - 'Genera el grafico y el informe formal'
-   - 'Ejecuta todo el pipeline'
-   (o responder 'si', 'dale', 'ok' a las sugerencias del agente)
-   (o escribir 'salir' para terminar)
-===========================================================================
-
-[Usuario]: dime quienes eran los sospechosos
-```
-
-#### Ejemplos de Consultas en Lenguaje Natural:
-| Consulta del Usuario | Acción Ejecutada por el Sistema Multi-Agente |
-| :--- | :--- |
-| `dime quienes eran los sospechosos` | `IngestionAgent` analiza el PDF con Gemini y extrae los líderes y metadatos del caso. |
-| `aisla la banda con gurobi` | `OptimizationAgent` consulta la base relacional y resuelve el modelo StRAM en Gurobi. |
-| `¿cual es el blanco HVT prioritario?` | `AuditorAgent` evalúa la fragilidad del grafo y calcula el Blanco de Alto Impacto (HVT). |
-| `genera el grafico y el informe` | `VisualizationAgent` y `ExplanationAgent` exportan los diagramas e informes formales. |
-| `ejecuta todo el pipeline` | Invoca el `StateGraph` de LangGraph corriendo todo el flujo autónomo de principio a fin. |
-| `listar casos` / `cargar caso 2` | Lista los partes policiales en cola o cambia de caso de investigación. |
-| `salir` | Finaliza la sesión del Copiloto. |
-
----
-
-### C. Ejecución Batch Autónoma Tradicional
-Para ejecutar todo el pipeline de manera desatendida sobre todos los reportes de la cola:
-```bash
-python main.py
+└── src/
+    ├── agents/                     # Los 6 agentes autónomos del sistema
+    ├── graph/                      # Grafos de estado LangGraph
+    └── utils/                      # Modelos matemáticos Gurobi y utilidades
 ```
 
 ---
 
 ## 6. Entregables y Productos de Salida
 
-Tras la ejecución, los resultados se almacenan automáticamente en:
+Tras la ejecución del sistema, los productos procesales se almacenan automáticamente en:
 - **Diagramas de Redes Criminales:** `data/graficos_resultados/` (PNG)
-- **Informes Forenses para Fiscalía:** `data/informes_fiscalia/` (TXT)
+- **Informes Forenses para Fiscalía:** `data/informes_fiscalia/` (TXT / MD)
 - **Resúmenes Cognitivos de Casos:** `data/resumenes_casos/` (TXT)
+- **Dashboard Web de Control:** Accesible en `http://localhost:8501`

@@ -1,44 +1,46 @@
 **MINISTERIO PÚBLICO / FISCALÍA**
 **UNIDAD DE ANÁLISIS CRIMINAL Y FOCOS INVESTIGATIVOS**
 
-**MEMORÁNDUM INTERNO: INFORME DE INTELIGENCIA CRIMINAL**
-**A:** Fiscal Adjunto a Cargo
-**DE:** Asesoría en Inteligencia Criminal y Derecho Procesal Penal
-**REF:** Informe de Inteligencia y Propuesta de Persecución Penal (RUC: parte_policial_caso_banda_norte)
+**MEMORÁNDUM INTERNO: INFORME DE INTELIGENCIA Y ESTRATEGIA DE PERSECUCIÓN PENAL**
+
+**A:** Fiscal Adjunto a cargo de la causa.
+**DE:** Asesoría de Inteligencia Criminal y Procesal Penal.
+**REF:** Caso RUC: `parte_policial_caso_banda_norte` – Desarticulación de estructura criminal.
+**FECHA:** 24 de mayo de 2024.
 
 ---
 
 ### 1. ANTECEDENTES Y SÍNTESIS DE LA INVESTIGACIÓN
-La presente investigación se centra en una estructura criminal organizada con presencia consolidada en la zona norte de la Región Metropolitana. De acuerdo con los antecedentes recopilados, la organización se dedica al robo con violencia, intimidación y la receptación de vehículos motorizados, operando bajo un esquema de asociación ilícita. La investigación se ha elevado tras la aplicación de técnicas de modelamiento de grafos, permitiendo identificar un núcleo duro de 13 sujetos que articulan el actuar delictivo.
+La presente investigación se aboca al desmantelamiento de una organización criminal con asiento en la zona norte de la Región Metropolitana, especializada en la comisión de delitos de robo con violencia, intimidación y receptación sistemática de vehículos motorizados. El análisis forense inicial y la arquitectura de procesamiento de datos han permitido identificar un núcleo duro de 11 sujetos vinculados a una red logística y operativa de alta peligrosidad. La banda presenta una alta sincronía operativa, sugiriendo una estructura jerárquica con capacidad para la reducción y comercialización de especies en mercados ilícitos.
 
 ### 2. ANÁLISIS DE RED Y METODOLOGÍA MATEMÁTICA
-La identificación de los integrantes se realizó mediante la arquitectura de procesamiento multi-agente, aplicando un *Filtro Directo Demo* que permitió reducir un universo inicial de 77 sospechosos a un subgrafo de 13 nodos, con una **Propensión Criminal Generativa (PCG)** promedio de 0.904, significativamente superior al resto de la red (0.387).
-
-La validación técnica, realizada mediante optimización matemática (StRAM/Gurobi), confirma que la red posee un alto nivel de conectividad interna (densidad: 0.256; clustering: 0.41), lo que garantiza la operatividad de la banda. El modelo ha verificado que esta estructura es un componente único y conexo, validando su naturaleza jerárquica y colaborativa.
+Para el aislamiento de esta estructura, se aplicó un protocolo de **Poda Criminológica**, filtrando una red inicial de 58 nodos sospechosos hacia un subgrafo conexo de 11 integrantes. 
+*   **Validación Matemática:** Se utilizó el modelo de optimización StRAM/Gurobi, que permitió identificar una coherencia de red con una densidad interna de 0.273 y un coeficiente de *clustering* de 0.33, lo que ratifica la existencia de un colectivo criminal cohesionado y no un evento fortuito de delincuencia común.
+*   **Diferenciación de Riesgo:** La banda presenta un *Promedio de Comportamiento Grupal* (PCG) de 0.886, significativamente superior al resto de los nodos de la red analizada (0.42), resultando en un *delta* de riesgo de 0.466, lo cual justifica la urgencia de una intervención directa.
 
 ### 3. ESTRUCTURA Y ROLES DE LA ORGANIZACIÓN CRIMINAL
-El análisis de los 13 integrantes detectados permite inferir una jerarquía basada en la *betweenness centrality* (centralidad de intermediación):
-
-*   **Núcleo de Comando y Control (HVT):** Sujetos 6 y 77. Presentan los mayores índices de centralidad y una PCG de 1.0, lo que los posiciona como los coordinadores operativos y logísticos.
-*   **Operativos de Enlace:** Sujetos 67 y 58, quienes mantienen la cohesión del subgrafo y actúan como puentes en la cadena de mando.
-*   **Ejecutores y Soporte:** Sujetos restantes (1, 3, 26, 37, 41, 51, 66, 71, 75). Estos presentan un PCG de 1.0, indicando una alta peligrosidad individual, aunque su rol es tácticamente subordinado a los nodos centrales.
+El algoritmo ha categorizado a los 11 implicados (RUTs/IDs: 1, 3, 6, 26, 37, 51, 58, 66, 67, 75, 77) según su *Betweenness Centrality* y nivel de PCG. Se infieren los siguientes perfiles:
+*   **Nodos de Mando y Articulación:** Identificados en los IDs **77, 6 y 67**, quienes poseen los mayores índices de centralidad, actuando como puentes de comunicación y coordinación logística.
+*   **Nodos Operativos de Alto Riesgo:** Los IDs **58, 3, 51, 37, 75, 66 y 1** presentan un PCG de 1.0, lo que denota una ejecución directa y constante en los actos criminales.
+*   **Nodos de Soporte Logístico/Receptación:** El ID **26**, aunque con menor PCG (0.25), muestra una alta incidencia en la desconexión de componentes de la red al ser intervenido, sugiriendo un rol clave en la cadena de receptación.
 
 ### 4. ESTRATEGIA DE DESARTICULACIÓN E INTERDICCIÓN TÁCTICA
-El modelo de optimización ha determinado que la captura del **HVT (ID: 6)** es el punto crítico para la neutralización de la banda. La remoción de este nodo provoca:
-1.  Una **caída del 23.35% en la conectividad global** de la banda.
-2.  La fragmentación del grupo en al menos **2 componentes desconectadas**, lo que impide la continuidad operativa de la asociación ilícita.
-
-Se recomienda priorizar la interdicción sobre los sujetos 6, 77 y 67, dado que concentran la mayor capacidad de resiliencia delictual de la estructura.
+Se ha determinado que el **HVT (High Value Target) prioritario es el individuo identificado con el ID 77**. 
+*   **Justificación:** Su captura genera una caída porcentual en la conectividad de la red del 26.23% y provoca la partición del grafo en 2 componentes desconectadas, lo que garantiza la parálisis operativa de la estructura criminal.
+*   **Efecto Dominó:** El ataque simultáneo a los IDs 77 y 6 causaría la desarticulación crítica de la capacidad de mando de la organización, permitiendo la toma de control sobre los activos ilícitos restantes.
 
 ### 5. SOLICITUD DE DILIGENCIAS INVESTIGATIVAS AL FISCAL
-Considerando la evidencia técnica de la estructura, se solicita al Fiscal Adjunto gestionar ante el Juzgado de Garantía respectivo las siguientes actuaciones:
+Basado en la evidencia recabada, se sugiere al Ministerio Público proceder con el siguiente escalonamiento de medidas intrusivas:
 
-1.  **Medidas Intrusivas:** Solicitar orden judicial de interceptación y monitoreo de comunicaciones para los IDs 6, 77, 67 y 58, a fin de establecer la cadena de mando y coordinaciones logísticas actuales.
-2.  **Entrada y Registro:** Autorización para el ingreso a los domicilios identificados de los HVTs (6 y 77) para la incautación de evidencia (teléfonos, armas, y bienes provenientes de receptación).
-3.  **Ordenes de Detención:** Proponer el desarrollo de una fase operativa sincronizada una vez finalizada la etapa de interceptación, enfocada en la desarticulación simultánea de los nodos de alta centralidad.
-4.  **Inmovilización:** Oficiar a las entidades financieras y registros públicos para la trazabilidad de bienes y activos asociados a los sujetos 6 y 77 para futuras solicitudes de medidas cautelares reales.
+1.  **Orden de Entrada y Registro Judicial:** Autorización de entrada a los domicilios identificados de los nodos críticos (IDs 77, 6 y 67) con el fin de incautar evidencia digital (dispositivos móviles/computadores) que acrediten la jerarquía y logística.
+2.  **Interceptación de Comunicaciones:** Autorización judicial para la intervención telefónica y telemática de los IDs **77, 6, 67 y 58**, dada su centralidad en la red y alta propensión delictual (PCG 1.0).
+3.  **Diligencia de Vigilancia y Seguimiento:** Operaciones encubiertas sobre los nodos de soporte (ID 26) para la identificación de centros de acopio de vehículos (desarmadurías ilegales) detectados mediante el análisis de subgrafos.
+4.  **Solicitud de Órdenes de Detención:** Una vez consolidada la prueba documental en la fase de registro, proceder a la detención judicial para formalización de cargos por los delitos de robo con violencia e intimidación (Art. 436 CP) y asociación criminal (Art. 292 CP).
+
+La eficacia de esta operación depende estrictamente del carácter simultáneo de las intervenciones para evitar la dispersión de los nodos detectados.
 
 **Atentamente,**
 
-*Asesoría en Inteligencia Criminal*
-*Unidad de Análisis Criminal y Focos Investigativos*
+**[Su Nombre/Firma]**
+Asesoría en Inteligencia Criminal
+Ministerio Público

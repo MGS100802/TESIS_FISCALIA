@@ -1,0 +1,13 @@
+﻿services:
+  heredia-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: heredia_fiscalia_app
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./data:/app/data
+    environment:
+      - GOOGLE_GENAI_API_KEY=
+    restart: unless-stopped
